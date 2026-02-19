@@ -20,7 +20,7 @@ async function createPostController(req, res) {
   const post = await postModel.create({
     caption: req.body.caption,
     imageUrl: file.url,
-    username: req.user.username,
+    user: req.user.username,
   });
 
   res.status(201).json({
@@ -36,7 +36,7 @@ async function getPostController(req, res) {
 
   // Find all posts created by this user
   const posts = await postModel.find({
-    username: username,
+    user: username,
   });
 
   res.status(200).json({
@@ -61,7 +61,7 @@ async function getPostDetailsController(req, res) {
   }
 
   // Allow only if post belongs to loggedIn user
-  const isValidUser = post.username === username;
+  const isValidUser = post.user === username;
   if (!isValidUser) {
     return res.status(403).json({
       message: "Forbidden Content",
